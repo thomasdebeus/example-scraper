@@ -24,18 +24,15 @@ for tr in root.cssselect("div[align='left'] tr"):
             'country' : tds[0].text_content(),
             'years_in_school' : int(tds[4].text_content())
         }
-        print data
+        scraperwiki.sqlite.save(unique_keys=['country'], data=data)
+        
 
 # -----------------------------------------------------------------------------
-# 2. Save the data in the ScraperWiki datastore.
-# -- UNCOMMENT THE THREE LINES BELOW
-# -- CLICK THE 'RUN' BUTTON BELOW
-# Check the 'Data' tab - here you'll see the data saved in the ScraperWiki store. 
+# The datastore is a magic SQL store, one where you don't need to make a schema up front.
+# Replace print data in the lxml loop with this save command (make sure you keep it indented with spaces at the start like this): 
 # -----------------------------------------------------------------------------
 
-for td in tds:
-     record = { "td" : td.text } # column name and value
-     scraperwiki.sqlite.save(["td"], record) # save the records one by one
+# scraperwiki.sqlite.save(unique_keys=['country'], data=data)
     
 # -----------------------------------------------------------------------------
 # Go back to the Tutorials page and continue to Tutorial 3 to learn about 
