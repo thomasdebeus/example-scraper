@@ -1,20 +1,33 @@
-import scraperwiki
-import lxml.html
-# From Dirty Medicine (5) to Tokyo Hooters (103)
-def scrape(url):
-    html = scraperwiki.scrape(url)
-    root = lxml.html.fromstring(html)
-    # split at elements with the style attribute "font-size: 1.5625em"
-    results = {}
-    for (i,e) in enumerate(root.xpath('.//div[@class="articleContent"]/a')):
-        if (i<5) or (i>103) or (e.text=="story") or (e.text=="this episode"):
-            continue
-        results['publication'] = e.xpath('preceding-sibling::b')[-1].text.title()
-        results['category'] = e.xpath('preceding-sibling::div/font')[-1].text
-        results['link']=e.get('href')
-        results['title']=e.text
-        print results['title'], results['publication']
-        scraperwiki.sqlite.save(['link'], results)
+###############################################################################
+# START HERE: Tutorial 1: Getting used to the ScraperWiki editing interface.
+# Follow the actions listed with -- BLOCK CAPITALS below.
+###############################################################################
 
-base_url = 'http://www.theatlantic.com/entertainment/archive/2011/05/nearly-100-fantastic-pieces-of-journalism/238230/'
-scrape(base_url)
+# -----------------------------------------------------------------------------
+# 1. Start by running a really simple Python script, just to make sure that 
+# everything is working OK.
+# -- CLICK THE 'RUN' BUTTON BELOW
+# You should see some numbers print in the 'Console' tab below. If it doesn't work, 
+# try reopening this page in a different browser - Chrome or the latest Firefox.
+# -----------------------------------------------------------------------------
+
+for i in range(10):
+    print "Hello", i
+
+# -----------------------------------------------------------------------------
+# 2. Next, try scraping an actual web page and getting some raw HTML.
+# -- UNCOMMENT THE THREE LINES BELOW (i.e. delete the # at the start of the lines)
+# -- CLICK THE 'RUN' BUTTON AGAIN 
+# You should see the raw HTML at the bottom of the 'Console' tab. 
+# Click on the 'more' link to see it all, and the 'Sources' tab to see our URL - 
+# you can click on the URL to see the original page. 
+# -----------------------------------------------------------------------------
+
+#import scraperwiki
+#html = scraperwiki.scrape('https://scraperwiki.com/hello_world.html')
+#print html
+
+# -----------------------------------------------------------------------------
+# In the next tutorial, you'll learn how to extract the useful parts
+# from the raw HTML page.
+# -----------------------------------------------------------------------------
