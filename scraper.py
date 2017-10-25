@@ -2,7 +2,7 @@
 # START HERE: Tutorial 2: Basic scraping and saving to the data store.
 # Follow the actions listed in BLOCK CAPITALS below.
 ###############################################################################
-
+# -*- coding: utf-8 -*-
 import scraperwiki
 html = scraperwiki.scrape('http://web.archive.org/web/20110514112442/http://unstats.un.org/unsd/demographic/products/socind/education.htm')
 
