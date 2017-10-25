@@ -11,8 +11,8 @@
 # try reopening this page in a different browser - Chrome or the latest Firefox.
 # -----------------------------------------------------------------------------
 
-for i in range(10):
-    print "Hello", i
+#for i in range(10):
+#    print "Hello", i
 
 # -----------------------------------------------------------------------------
 # 2. Next, try scraping an actual web page and getting some raw HTML.
@@ -24,7 +24,7 @@ for i in range(10):
 # -----------------------------------------------------------------------------
 
 import scraperwiki
-html = scraperwiki.scrape('https://scraperwiki.com/')
+html = scraperwiki.scrape('http://web.archive.org/web/20110514112442/http://unstats.un.org/unsd/demographic/products/socind/education.htm')
 print html
 
 # -----------------------------------------------------------------------------
