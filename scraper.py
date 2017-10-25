@@ -5,7 +5,7 @@
 # -*- coding: utf-8 -*-
 import scraperwiki
 html = scraperwiki.scrape('http://web.archive.org/web/20110514112442/http://unstats.un.org/unsd/demographic/products/socind/education.htm')
-
+print html
 # -----------------------------------------------------------------------------
 # 1. Parse the raw HTML to get the interesting bits - the part inside <td> tags.
 # -- UNCOMMENT THE 6 LINES BELOW (i.e. delete the # at the start of the lines)
