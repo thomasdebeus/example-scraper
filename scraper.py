@@ -17,6 +17,6 @@ def get_google_new_results( term, count ):
 
     return results
 
-items = get_google_new_results( 'Rutte', 10 )
+items = get_google_new_results( 'Google', 5 )
 for i,e in enumerate(items):
     print '%d: %s' % (i+1,e,)
