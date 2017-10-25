@@ -15,12 +15,16 @@ html = scraperwiki.scrape('http://web.archive.org/web/20110514112442/http://unst
 # We use lxml, which is a Python library especially for parsing html.
 # -----------------------------------------------------------------------------
 
-import lxml.html
-root = lxml.html.fromstring(html) # turn our HTML into an lxml object
-tds = root.cssselect('td') # get all the <td> tags
-for td in tds:
-    print lxml.html.tostring(td) # the full HTML tag
-                    # just the text inside the HTML tag
+import lxml.html           
+root = lxml.html.fromstring(html)
+for tr in root.cssselect("div[align='left'] tr"):
+    tds = tr.cssselect("td")
+    if len(tds)==12:
+        data = {
+            'country' : tds[0].text_content(),
+            'years_in_school' : int(tds[4].text_content())
+        }
+        print data
 
 # -----------------------------------------------------------------------------
 # 2. Save the data in the ScraperWiki datastore.
