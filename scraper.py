@@ -1,41 +1,20 @@
 import scraperwiki
 import lxml.html
-import urllib
-import datetime
-import json
+# From Dirty Medicine (5) to Tokyo Hooters (103)
+def scrape(url):
+    html = scraperwiki.scrape(url)
+    root = lxml.html.fromstring(html)
+    # split at elements with the style attribute "font-size: 1.5625em"
+    results = {}
+    for (i,e) in enumerate(root.xpath('.//div[@class="articleContent"]/a')):
+        if (i<5) or (i>103) or (e.text=="story") or (e.text=="this episode"):
+            continue
+        results['publication'] = e.xpath('preceding-sibling::b')[-1].text.title()
+        results['category'] = e.xpath('preceding-sibling::div/font')[-1].text
+        results['link']=e.get('href')
+        results['title']=e.text
+        print results['title'], results['publication']
+        scraperwiki.sqlite.save(['link'], results)
 
-from unidecode import unidecode
-
-def get_html(title):
-    raw_json = scraperwiki.scrape("http://en.wikipedia.org/w/api.php?action=parse&format=json&page=" + title)
-    html = json.loads(raw_json)['parse']['text']['*']
-    return html
-
-page_title = "ISO_3166-1"
-
-html = get_html("https://classic.scraperwiki.com/editor/raw/iso_3166-1")
-doc = lxml.html.fromstring(html)
-
-for count, tr in enumerate(doc.cssselect('tr')):
-    row = [(td.text_content()) for td in tr.cssselect('td')]
-    if len(row)==5:
-        for ahref in tr.cssselect('a'):
-            detailink = ahref.attrib['href']
-            if detailink.find(':',0,len(detailink)) != -1:
-                detailink = detailink[6:]
-                print detailink
-        now = datetime.datetime.now()
-        data ={"tmsp_scraped":str(now), "eng_short_name":row[0], "alpha_2_code":row[1], "alpha_3_code":row[2], "numeric_code":row[3], "iso_31662_code":detailink}
-        scraperwiki.sqlite.save(unique_keys=["eng_short_name"], data=data, table_name="s_iso31661")
-        
-        html = get_html(detailink)
-        doc = lxml.html.fromstring(html)
-
-        for count, tr in enumerate(doc.cssselect('tr')):
-            row = [td.text_content() for td in tr.cssselect('td')]
-            row2 = [td.text_content() for td in tr.cssselect('td')]
-            if len(row)>0:
-                if row[0][:2] == detailink[11:]:
-                    now = datetime.datetime.now()
-                    data = {"tmsp_scraped":str(now), "iso_31662_code":detailink, "region_code":row[0], "region_desc":row[1], "region_desc_utf8":row2[1]}
-                    scraperwiki.sqlite.save(unique_keys=["iso_31662_code","region_code"], data=data, table_name="s_iso31662_region")
+base_url = 'http://www.theatlantic.com/entertainment/archive/2011/05/nearly-100-fantastic-pieces-of-journalism/238230/'
+scrape(base_url)
